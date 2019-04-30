@@ -1,7 +1,7 @@
 # TextTestPP
 TextTest++ for text entry experiments and Throughput calculation 
 
-#### [Try it!](https://drustz.com/TextTestPP/)
+### [Try it!](https://drustz.com/TextTestPP/)
 
 This is a project associated with the paper [Text Entry Throughput: Towards Unifying Speed and Accuracy in a Single Performance Metric
 ](https://dl.acm.org/citation.cfm?doid=3290605.3300866). This platform is used for conducting text entry experiments. The loggin file can
