@@ -1,0 +1,306 @@
+<html>
+<head charset="utf-8">
+    <meta name="author" content="Ray">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="source-code-pro.css">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+    <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body>
+    
+<div class="ui sidebar inverted left vertical menu ">
+    <a class="item">
+        <br><br>
+    </a>
+    <a class="item" >
+      <h3 id="page1">Main Page</h3>
+    </a>
+    <a class="item" >
+      <h3 id="page2">How to use?</h3>
+    </a>
+    <a class="item" >
+      <h3 id="page3">Reference of the JSON and CSV file variable names</h3>
+    </a>
+</div>
+    <div class="pusher">
+    <div class="ui black big launch right attached button">
+        <i class="icon list layout"></i>
+    </div>
+    
+    <div class="ui center aligned header" id="Title">
+        <h1>TextTest++</h1>
+        <a href="url" id="aboutlink">About</a>    
+    </div>
+    
+    <div id="main-sec" >
+
+        <div class="ui text container">
+            <div class="ui segment" id="Present">Loading...</div>
+            <textarea class="ui raised segment" id="Transcribe" spellcheck="false"></textarea>
+            <div class="ui fitted divider" style="border-color:white;"></div>
+            <div id="AlignBtn" class="ui stackable">
+                <span id="phraseCount" >Phrase Count </span>
+                <button class="ui tiny button" id="Redo" disabled="disabled">
+                    <i class="undo icon"></i>Redo
+                </button>
+                <div class="ui checkbox">
+                    <input type="checkbox" id="EnterNext">
+                    <label>Use Enter for Next</label>
+                </div>
+                <button class="ui green button" id="Next">Next</button>
+            </div>
+        </div>
+        
+        <div class="ui text container" id="SettingDevider">
+            <div class="ui styled fluid accordion">
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    Settings
+                </div>
+                <div class="content">
+                    <div class="ui list">
+                        <div class="item">
+                            <i class="small circle icon"></i>
+                            <div class="content">
+                                <div class="header">Upload Custom Phrase Set</div>
+                                <div class="description">
+                                 <input type="file" id="fileInput"/><button class="ui mini button" id="upload">Upload</button>
+                                </div></div>
+                        </div>
+                        <div class="item">
+                            <i class="small circle icon"></i>
+                            <div class="content">
+                                <div class="header">Set Phrase Amount and Order</div>
+                                <div class="description">
+                                    <div class="ui checkbox">
+                                        <input type="checkbox" id="SetTotal">
+                                        <label>Stop test after <input type="number" id="numofPhrase" value="40" min="1" disabled="true"> phrases</label>
+                                    </div>
+                                    
+                                    <button class="ui mini green button" id="Shuffle">Shuffle whole set</button>
+                                </div></div>
+                        </div>
+                        <div class="item">
+                            <i class="small circle icon"></i>
+                            <div class="content">
+                                <div class="header">Analysis Setting</div>
+                                <div class="description">
+                                    <div class="ui checkbox">
+                                        <input type="checkbox" id="IgnoreCase">
+                                        <label>Ignore Case</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui text container" id="LogContainer">
+            <div class="ui styled fluid accordion">
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                        Log
+                </div>
+                <div class="content">
+                    <pre class="ui inverted grey stacked segment" id="LogDisplay">
+                    </pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="ui text container middle aligned stackable grid">
+            <div class="four wide column">
+                <button class="small ui blue button" id="Analysis">Analyze</button>
+            </div>
+            <div class="right aligned column ">
+                <div class="ui action mini input">
+                  <input type="text" placeholder="Log" id="Filename">
+                  <select class="ui dropdown" id="Selectformat">
+                    <option value="0">.json</option>
+                    <option value="1">.csv</option>
+                  </select>
+                    &nbsp;
+                    <button class="small ui icon blue button" id="Download"> Download log</button>
+                    &nbsp;
+                    <input type="file" id="inputJson" size="chars">
+                    <button class="small blue ui button" id="UploadJSON">Upload log</button>
+                </div>
+            </div>        
+        </div>
+        <br/>
+
+        <div class="ui container center aligned">
+            <div id="vis"></div>
+        </div>
+    </div>
+    
+    <div id="tutorial-sec" hidden> 
+        <div class="ui text container">
+            <div class="stackedit__html"><h1 id="tutorial">Tutorial</h1>
+            <p>Welcome to TextTest++, a WEB platform for text entry test. The output of the test data can be seamlessly plugged in the throughput calculation project <a href="https://github.com/DrustZ/Throughput" target="_blank"> here </a>. We build our platform purely with JS, thus you won’t worry about network-delay  when testing. After loading the webpage, you’re good to go! </p>
+                <p style="color: gray; font-size: 1em;"><i>P.s. We strongly recommend using Chrome browser, as other browsers might yield unexpected results because of their different implementations of the web api.</i></p>
+            <h2 id="before-test">Before Test</h2>
+            <h4 id="import-phraseset">Import Phraseset</h4>
+            <div class="ui centered image">
+              <img src="imgs/more_settings.png">
+            </div>
+            <p>By clicking “Settings”, you can find the option <strong>Upload Custom Phrase Set</strong>. We use the phrase set from <a href="https://dl.acm.org/citation.cfm?id=765971">Phrase sets for evaluating text entry techniques</a> as default set. Make sure your phrase set uses the following format (one phrase for one line):</p>
+            <blockquote>
+            <p>phrase 1<br>
+            phrase 2<br>
+            …<br>
+            phrase n</p>
+            </blockquote>
+            <p>After choosing the phrase file, click <strong>upload</strong> to import the phrases.</p>
+            <h4 id="randomize-phrases">Randomize Phrases</h4>
+            <p>The default order of phrases is the same order as the phrase file. To randomize the test order, you could click the "Shuffle whole set" button.</p>
+            <p>If you check the box of "Stop test after", and modify the number, then the test will end after the number of phrases are completed.<br>
+           
+            <h4 id="other-settings">Other Settings</h4>
+            <ul>
+            <li>Ignore Case - check <strong>Ignore Case</strong> in settings to ignore case between comparison of Present string and Transcribed string</li>
+                <li>Shortcut for Next  - Check <strong>Use Enter for Next</strong> to enable change to the next phrase by hitting Enter key <i>(the option is next to <img src="imgs/next_btn.png" alt="Next"> button)</i></li>
+            </ul>
+            <h2 id="during-test">During Test</h2>
+                <p>During the test, the left corner of the input text will show the count of finished phrases. If the user entered all phrases (or if you check the "Stop test after" and the number of phrases are completed), it will turn to red showing "<span style="color: red">task done!</span>" </p>
+            <h4 id="restart-last-phrase">Restart last phrase</h4>
+            <p>If the user want to re-enter the last phrase (for example, the user accidentally hit Next before finish the current phrase), he/she could click <img src="imgs/last_btn.png" alt="last"> button to restart the last phrase. However, one can only restart one phrase at one time. All actions of the last phrase before restart won’t be logged in the file.</p>
+            <h4 id="restart-whole-test">Restart whole test</h4>
+            <p>You can just refresh the webpage to start a new test or restart a test. Remember to set the phrase amount, upload new phrase set (if necessary) and repeat other settings again.</p>
+            <h4 id="log-section">Log section</h4>
+            <p>You will notice that when the input text changes, the gray-background area below will change its content. It will display the corrected typed characters and uncorrected errors of the complete phrase.</p>
+                
+            <h2 id="after-test">After Test</h2>
+                <p>Congratulations! You’ve finished a test. Now you might want to download the log files and further analyze them. <strong>Remember, always hit Analysis before download the file.</strong></p>
+            <h4 id="analyze-data">Analyze data</h4>
+            <p>Click <strong>Analysis</strong> button to show the graph of different error rates of the experiment. It is always required before download any file.</p>
+            <p>A statistic graph will show the uncorrected error rates (UER) of the typing process.
+                
+            The graph is especially useful when you want to "clean out" some accidental data. for example, if one accidentally hit <strong>Next</strong> before he is finishing the phrase, you might find the phrase using the graph, because the UER (Uncorrected Error Rate) will be very high of the phrase.
+                
+            <h4 id="download-data">Download Data</h4>
+            <p>You can set the custom file name or leave the filename section empty, which will generate a file named “TextTest”. Select the type of file and download. You can download all types.</p>
+                
+            <table>
+            <thead>
+            <tr>
+            <th>Type</th>
+            <th>Contents</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            <td>json</td>
+            <td>the log file of action information for each phrase, can be used to calculate throughput.</td>
+            </tr>
+            <tr>
+            <td>csv</td>
+            <td>the metrics file for each phrase, analyzed from the json file</td>
+            </tr>
+            </tbody>
+            </table><p>(for detailed explanation, please go to “Reference of csv file variable names”)</p>
+            <p>After analyze or download the experiment, you can always continue the test if you don’t refresh the page. The log file will continue to log the experiment.</p>
+            <h4 id="import-an-existing-json-file">Import an existing json file</h4>
+            <p>You could analyze an existing json file in other experiments as long as the format is the same. After successfully uploading, the error rate graph will appear, and you can download the CSV result of the file.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="reference-sec" hidden>
+        <div class="ui container">
+        <table class="ui celled inverted grey table">
+          <thead class="center aligned">
+              <tr><th class="ui four wide"><strong>Variable Name in CSV</strong></th>
+                  <th><strong>Explanation</strong></th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td>Trial</td>
+              <td>Index of the trial</td>
+            </tr>
+            <tr>
+              <td>Seconds</td>
+              <td>Total time spent to type the phrase</td>
+            </tr>
+            <tr>
+              <td>Tlen</td>
+              <td>Transcription string (T) length</td>
+            </tr>
+            <tr>
+              <td>Plen</td>
+              <td>Presented string (P) length</td>
+            </tr>
+            
+            <tr>
+              <td>INF</td>
+              <td>INF (Incorrect Not Fixed) class, Minimum string distance (MSD) between P and T </td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>C (Correct) class, contains correct characters in T</td>
+            </tr>
+            <tr>
+              <td>WPM</td>
+              <td>Word per minute</td>
+            </tr>
+            
+            <tr>
+              <td>UER</td>
+                <td>
+                <div class="ui accordion">
+                  <div class="title">
+                      <p>Uncorrected Error Rate <i class="plus icon" style="float: right;"></i></p>
+                  </div>
+                  <div class="content">
+                    <p>UER = INF / (C + INF)</p>
+                  </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+        <br><br>
+        <div class="ui container">
+        <h2> JSON Format </h2>
+        <p>A typical trial will be recorded in the following format:</p>
+            <pre class="ui inverted grey segment">
+    [
+        {
+            "Transcribe": "my watch fell in the waterr",
+            "Trial": 0,
+            "Present": "my watch fell in the water",
+            "INF": 1,
+            "C": 26,
+            "UER": "0.037",
+            "Time": 4040
+        }
+    ]
+            </pre>
+            <ul>
+                <li><strong>Transcribe</strong> contains the transcription text</li>
+                <li><strong>Trial</strong> means the current trial index</li>
+                <li><strong>Present</strong> is the presented string</li>
+                <li><strong>Time</strong> is the text entry time, unit in ms</li>
+                <li><strong>INF/C/UER</strong> is the corresponding metric</li>
+            </ul>
+        </div>        
+        <br>
+    </div>
+    
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega/3.0.7/vega.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.0.0/vega-lite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-rc6/vega-embed.js"></script>
+    
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"></script>
+    <script src="semantic/dist/semantic.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

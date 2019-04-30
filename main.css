@@ -1,0 +1,130 @@
+.item > .content{
+    width: 100%;
+}
+
+.description {
+    position: relative;
+}
+
+.description button{
+    position: absolute;
+    right:0;
+}
+
+#Title {
+    position: relative;
+}
+
+#aboutlink {
+    position: absolute;
+    display: inline-block;
+    left: 66%;
+    bottom: 0; 
+    font-size: 0.8em;
+}
+
+#Present {
+    border-width: 0px;
+/*    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;*/
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+#Transcribe {
+    width: 100%;
+    resize: none;
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+/*    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;*/
+    font-weight: 500;
+    font-size: 1.2em;
+    min-height: 5.5em;
+}
+
+@media only screen and (max-device-width: 768px) {
+    #Present {
+        font-size: 1em;
+    }
+    #Transcribe {
+        font-size: 1em;
+    }
+    #aboutlink {
+        left: 78%;
+    }
+}
+
+#AlignBtn {
+    text-align: right;
+    position: relative;
+}
+
+#numofPhrase, #seedInput {
+    width: 6em
+}
+
+#phraseCount {
+    float: left;
+}
+
+#SettingDevider {
+    margin-top: 5em;
+    margin-bottom: 1em;
+}
+
+#LogContainer {
+/*    margin-top: 1em;*/
+    margin-bottom: 1em;
+}
+
+#LogDisplay {
+    min-height: 12em;
+    max-height: 15em;
+    font-size: 0.9em;
+    width: 100%;
+    resize: none;
+    overflow: auto;
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+}
+
+#LogDisplay p {
+    margin-top: 0;
+    margin-bottom: 0.1em;
+}
+
+#LogDisplay .yellow {
+    color: black;
+    background-color: yellow;
+}
+
+#LogDisplay .red {
+    background-color: red;
+}
+
+#LogDisplay .redf {
+    color: red;
+}
+
+#LogDisplay .green {
+    background-color: green;
+}
+
+#LogDisplay .blue {
+    background-color: blue;
+}
+
+#LogDisplay .purple {
+    background-color: purple;
+}
+
+#inputJson {
+    display: none;
+    visibility: hidden;
+}
+
+#reference-sec .title {
+    color: #fff;
+}
+
+#reference-sec .content {
+    font-style: italic;
+}
