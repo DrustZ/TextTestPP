@@ -6,7 +6,6 @@
     <link rel="stylesheet" type="text/css" href="main.css">
     <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
     <link rel="stylesheet" href="https://stackedit.io/style.css" />
-    <title>TextTest++</title>
 </head>
 
 <body>
@@ -32,7 +31,7 @@
     
     <div class="ui center aligned header" id="Title">
         <h1>TextTest++</h1>
-        <a href="https://github.com/DrustZ/TextTestPP" target="_blank" id="aboutlink">Source Code</a>
+        <a href="https://github.com/DrustZ/TextTestPP" target="_blank" id="aboutlink">Source Code</a>    
     </div>
     
     <div id="main-sec" >
@@ -167,25 +166,26 @@
                 <li>Shortcut for Next  - Check <strong>Use Enter for Next</strong> to enable change to the next phrase by hitting Enter key <i>(the option is next to <img src="imgs/next_btn.png" alt="Next"> button)</i></li>
             </ul>
             <h2 id="during-test">During Test</h2>
-                <p>During the test, the left corner of the input text will show the count of finished phrases. If the user entered all phrases (or if you check the "Stop test after" and the number of phrases are completed), it will turn to red showing "<span style="color: red">task done!</span>" </p>
+                <p>During the test, the left corner of the input text will show the count of finished phrases. If the user entered all phrases, it will turn to red showing "<span style="color: red">task done!</span>" </p>
             <h4 id="restart-last-phrase">Restart last phrase</h4>
             <p>If the user want to re-enter the last phrase (for example, the user accidentally hit Next before finish the current phrase), he/she could click <img src="imgs/last_btn.png" alt="last"> button to restart the last phrase. However, one can only restart one phrase at one time. All actions of the last phrase before restart won’t be logged in the file.</p>
             <h4 id="restart-whole-test">Restart whole test</h4>
-            <p>You can just refresh the webpage to start a new test or restart a test. Remember to set the phrase amount, upload new phrase set (if necessary) and repeat other settings again.</p>
+            <p>You can just refresh the webpage to start a new test or restart a test. Remember to set the phrase amount, seed, upload new phrase set (if necessary) and repeat other settings again.</p>
             <h4 id="log-section">Log section</h4>
-            <p>You will notice that when the input text changes, the gray-background area below will change its content. It will display the corrected typed characters and uncorrected errors of the complete phrase.</p>
-                
+            <p>You will notice that when the input text changes, the gray-background area below will change its  content. The content shows the information of the text change using the approximation algorithm of T-sequence model.</p>
             <h2 id="after-test">After Test</h2>
                 <p>Congratulations! You’ve finished a test. Now you might want to download the log files and further analyze them. <strong>Remember, always hit Analysis before download the file.</strong></p>
             <h4 id="analyze-data">Analyze data</h4>
             <p>Click <strong>Analysis</strong> button to show the graph of different error rates of the experiment. It is always required before download any file.</p>
-            <p>A statistic graph will show the uncorrected error rates (UER) of the typing process.
-                
+            <p>A statistic graph will show the different error rates (TER/UER/CER) of the typing process. A typical graph will look like this:</p>
+            <div class="ui centered image">
+              <img src="imgs/graph.png">
+            </div>
             The graph is especially useful when you want to "clean out" some accidental data. for example, if one accidentally hit <strong>Next</strong> before he is finishing the phrase, you might find the phrase using the graph, because the UER (Uncorrected Error Rate) will be very high of the phrase.
                 
             <h4 id="download-data">Download Data</h4>
             <p>You can set the custom file name or leave the filename section empty, which will generate a file named “TextTest”. Select the type of file and download. You can download all types.</p>
-                
+
             <table>
             <thead>
             <tr>
@@ -196,7 +196,7 @@
             <tbody>
             <tr>
             <td>json</td>
-            <td>the log file of action information for each phrase, can be used to calculate throughput.</td>
+            <td>the log file of action information for each phrase</td>
             </tr>
             <tr>
             <td>csv</td>
@@ -228,6 +228,14 @@
               <td>Total time spent to type the phrase</td>
             </tr>
             <tr>
+              <td>correct_time</td>
+              <td>Total correct time (delete + substitute) using approximation algorithm</td>
+            </tr>
+            <tr>
+              <td>entry_time</td>
+              <td>Total entry time (insert + substitute)</td>
+            </tr>
+            <tr>
               <td>Tlen</td>
               <td>Transcription string (T) length</td>
             </tr>
@@ -235,7 +243,22 @@
               <td>Plen</td>
               <td>Presented string (P) length</td>
             </tr>
-            
+            <tr>
+              <td>TCC</td>
+              <td>
+                <div class="ui accordion">
+                  <div class="title">
+                      <p>Total Changed Characters during the typing process of the trial <i class="plus icon" style="float: right;"></i></p>
+                  </div>
+                  <div class="content">
+                    <p>TCC = Tlen + 2 × IF</p>
+                  </div>
+              </td>
+            </tr>  
+            <tr>
+              <td>IF</td>
+              <td>IF (Incorrect Fixed) class, contains all deleted characters in the T-sequence</td>
+            </tr>
             <tr>
               <td>INF</td>
               <td>INF (Incorrect Not Fixed) class, Minimum string distance (MSD) between P and T </td>
@@ -248,7 +271,26 @@
               <td>WPM</td>
               <td>Word per minute</td>
             </tr>
-            
+            <tr>
+              <td>TOTPM</td>
+              <td>Total Word Change per minute</td>
+            </tr>
+            <tr>
+              <td>AC</td>
+              <td>Action count, the number of actions taken during the text entry process</td>
+            </tr>  
+            <tr>
+              <td>DAC</td>
+              <td>Delete action count</td>
+            </tr>
+            <tr>
+              <td>IAC</td>
+              <td>Insert action count</td>
+            </tr>
+            <tr>
+              <td>SAC</td>
+              <td>Substitute action count</td>
+            </tr>
             <tr>
               <td>UER</td>
                 <td>
@@ -257,9 +299,118 @@
                       <p>Uncorrected Error Rate <i class="plus icon" style="float: right;"></i></p>
                   </div>
                   <div class="content">
-                    <p>UER = INF / (C + INF)</p>
+                    <p>UER = INF / (C + INF + IF)</p>
                   </div>
               </td>
+            </tr>
+            <tr>
+              <td>CER</td>
+                <td>
+                <div class="ui accordion">
+                  <div class="title">
+                      <p>Corrected Error Rate <i class="plus icon" style="float: right;"></i></p>
+                  </div>
+                  <div class="content">
+                    <p>CER = IF / (C + INF + IF)</p>
+                  </div>
+              </td> 
+            </tr>
+            <tr>
+              <td>TER</td>
+                <td>
+                <div class="ui accordion">
+                  <div class="title">
+                      <p>Total Error Rate <i class="plus icon" style="float: right;"></i></p>
+                  </div>
+                  <div class="content">
+                    <p>TER = (INF + IF) / (C + INF + IF)</p>
+                  </div>
+              </td>  
+            </tr>
+            <tr>
+              <td>CPA</td>
+              <td>
+                  <div class="ui accordion">
+                  <div class="title">
+                      <p>Character per action, indicates the average number of characters changed per action <i class="plus icon" style="float: right;"></i></p>
+                  </div>
+                  <div class="content">
+                    <p>CPA = TCC / AC</p>
+                  </div>
+              </td>
+            </tr>
+            <tr>
+              <td>CPC</td>
+              <td>
+                 <div class="ui accordion">
+                  <div class="title">
+                      <p>Character change per correct action <i class="plus icon" style="float: right;"></i></p>
+                  </div>
+                  <div class="content">
+                    <p>CPA = TCC / AC</p>
+                  </div>
+                 </div>
+              </td>
+            </tr>
+            <tr>
+              <td>CPE</td>
+              <td>
+                <div class="ui accordion">
+                  <div class="title">
+                      <p>Character change per entry action<i class="plus icon" style="float: right;"></i></p>
+                  </div>
+                  <div class="content">
+                    <p>CPE = (|T| + IF) / EAC</p>
+                  </div>
+                 </div>
+              </td>
+            </tr>
+            <tr>
+              <td>AE</td>
+              <td>
+                <div class="ui accordion">
+                  <div class="title">
+                      <p>Action Efficiency, the average number of characters one action can change in a given time period<i class="plus icon" style="float: right;"></i></p>
+                  </div>
+                  <div class="content">
+                    <p>AE = TCC / Total time</p>
+                  </div>
+                 </div>
+              </td>
+            </tr>
+            <tr>
+              <td>CE</td>
+              <td>
+                <div class="ui accordion">
+                  <div class="title">
+                      <p>Correction action Efficiency, indicating the “text-correcting speed” of actions <i class="plus icon" style="float: right;"></i></p>
+                  </div>
+                  <div class="content">
+                    <p>CE = IF / Correction time</p>
+                  </div>
+                 </div>
+              </td>
+            </tr>
+            <tr>
+              <td>EE</td>
+              <td>
+                <div class="ui accordion">
+                  <div class="title">
+                      <p>Entry action Efficiency, indicating the “text-entering speed” of actions <i class="plus icon" style="float: right;"></i></p>
+                  </div>
+                  <div class="content">
+                    <p>EE = (Tlen + F) / Entry time</p>
+                  </div>
+                 </div>
+              </td>
+            </tr>
+            <tr>
+              <td>IFc</td>
+              <td>Correct characters in IF</td>
+            </tr>
+            <tr>
+              <td>IFe</td>
+              <td>Error characters in IF</td>
             </tr>
           </tbody>
         </table>
@@ -271,22 +422,45 @@
             <pre class="ui inverted grey segment">
     [
         {
-            "Transcribe": "my watch fell in the waterr",
+            "Transcribe": [
+                {
+                    "Text": "m",
+                    "TimeStamp": 1517175820224
+                },
+                {
+                    "Text": "my",
+                    "TimeStamp": 1517175820417
+                }
+            ],
+            "Action": [
+                [
+                    "insert",
+                    0,
+                    1
+                ],
+                [
+                    "insert",
+                    1,
+                    1
+                ]
+            ],
             "Trial": 0,
             "Present": "my watch fell in the water",
-            "INF": 1,
-            "C": 26,
-            "UER": "0.037",
-            "Time": 4040
+            "IF": 0,
+            "INF": 24,
+            "C": 2,
+            "CER": "0.000",
+            "UER": "0.923",
+            "TER": "0.923"
         }
     ]
             </pre>
             <ul>
-                <li><strong>Transcribe</strong> contains the transcription text</li>
+                <li><strong>Transcribe</strong> contains the sequence of the transcription texts, each has <i>Text</i> and <i>TimeStamp</i> property</li>
+                <li><strong>Action</strong> contains the sequence of the actions corresponding to each transcription text, each has <i>Operation (Insert/Delete/Substitute)</i> and <i>range (for insert, it's (start index, inserted count)/ for delete, it's (start index, end index)/ for substitute, it's (start index, end index))</i> property</li>
                 <li><strong>Trial</strong> means the current trial index</li>
                 <li><strong>Present</strong> is the presented string</li>
-                <li><strong>Time</strong> is the text entry time, unit in ms</li>
-                <li><strong>INF/C/UER</strong> is the corresponding metric</li>
+                <li><strong>IF/INF/C/CER/UER/TER</strong> is the corresponding metric</li>
             </ul>
         </div>        
         <br>
