@@ -11,6 +11,12 @@ For details about how to use, please go to the page and read the tutorial.
 
 You can also host it offline, and customize the code according to your need.
 
+## Algorithms
+For algorithm implementations, please refer to [main.js](https://github.com/DrustZ/TextTestPP/blob/master/main.js). 
+
+- INFER-ACTION algorithm: [here](https://github.com/DrustZ/TextTestPP/blob/b0b470e6eef66e8f37a6c8ea020f9efd628568f2/main.js#L271)
+
+- Extended Needleman-Wunsch alignment algorithm for deteremining IFc and IFe: [here](https://github.com/DrustZ/TextTestPP/blob/b0b470e6eef66e8f37a6c8ea020f9efd628568f2/main.js#L462)
 
 ## Code Author
 
