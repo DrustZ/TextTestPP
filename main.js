@@ -78,6 +78,7 @@ $("#upload").click(function(){
     } 
 })
 
+//process the upload phrase file
 function processFile(e) {
     var file = e.target.result,
         results;
@@ -109,6 +110,7 @@ $("#numofPhrase").on("change paste keyup", function(){
     phraselimit = Number($("#numofPhrase").val())
 });
 
+//shuffle the phrases
 $("#Shuffle").click(function(){
         shuffle(allphrases)
         phrasecount = 0;
@@ -139,6 +141,8 @@ $("#Transcribe").bind("mouseup", function() {
     }, 1);
 })
 
+//whenever there's a change happens in the transcribed string (e.g. an Action happens)
+//this function is triggered
 $("#Transcribe").bind("keyup click focus input propertychange", function() {
     getCursorPosition(this);
     var currentVal = $(this).val();
@@ -264,6 +268,7 @@ function getCursorPosition(element) {
 }
 
 //infer the change
+//INFER-ACTION implementation
 function guessChangeInfo(t1, t2, res) {
     if (t1.length == 0) {
         //console.log('insert from 0');
@@ -384,7 +389,7 @@ const levenshtein = (a, b) => {
 
 //following are align functions 
 function getIFc(oldVal, PresentString, start, end){
-    	strs = zmr(oldVal, PresentString)
+    	strs = ENWalignment(oldVal, PresentString)
         
         let pos1 = -1, pos2 = strs[0].length, cnt = -1
         for (var i = 0; i < strs[0].length; ++i){
@@ -454,7 +459,9 @@ function finalize(align1, align2) {
     return [align1, symbol, align2]
 }
 
-function zmr(seq1, seq2) {
+//Extended Needleman-Wunsch alignment algorithm
+//for determining IFc and IFe
+function ENWalignment(seq1, seq2) {
     let m = seq1.length,
         n = seq2.length
     let score = zeros([m + 1, n + 1])
@@ -643,6 +650,7 @@ $("#Analysis").click(function(){
     }
 })
 
+//helper function for Vega visualization of the result
 function defVegaJson(){
     var rule = {$schema: "https://vega.github.io/schema/vega-lite/v2.json", description:"embed view", mark: "line", width: $("#LogContainer").width()*1.3, selection: {grid: {type: "interval", bind:"scales"} }}
     
