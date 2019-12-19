@@ -288,7 +288,7 @@ function guessChangeInfo(t1, t2, res) {
         } else if (i == t2.length) {
             // console.log('delete at tail');
             IF += (t1.length - t2.length);
-            return ['delete', t2.length, t1.length];
+            return ['delete', t2.length, t1.length-t2.length];
         }
     }
 
