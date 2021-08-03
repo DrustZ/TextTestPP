@@ -158,7 +158,7 @@ $("#Transcribe").bind("keyup click focus input propertychange", function() {
     ItemJson["Action"].push(res)
     
 	if (res[0] == 'delete' || res[0] == 'replace'){
-        strs = getIFc(oldVal, PresentString, res[1], res[2])
+        strs = getIFc(oldVal, PresentString, res[1], res[1]+res[2])
     	log += ('<p>T   : <span class="purple">'+strs[0]+'</span></p><p>P   : <span class="purple">'+strs[2]+'</span></p><p>Same: '+strs[1]+'</p>');
         
         log += '<p>Removed but correct: '+ strs[3] + ' (IFc: ' + strs[3].length + ')</p>';
@@ -269,7 +269,8 @@ function getCursorPosition(element) {
 
 //infer the change
 //INFER-ACTION implementation
-function guessChangeInfo(t1, t2, res) {
+// return [action, startpos, action_length]
+function guessChangeInfo(t1, t2) {
     if (t1.length == 0) {
         //console.log('insert from 0');
         return ['insert', 0, t2.length - t1.length];
@@ -312,17 +313,17 @@ function guessChangeInfo(t1, t2, res) {
         } else {
             // console.log('delete from ' + (t1.length-j+1) + ' to ' + (t2.length-j+1));
             IF += (t1.length - t2.length);
-            return ['delete', t2.length - j + 1, t1.length - j + 1]
+            return ['delete', t2.length - j + 1, (t1.length - t2.length)]
         }
     } else {
         // console.log('substitude from ' + i + ' to ' + (t1.length-j+1));
 
         if (t2.length <= i + j - 1) {
             IF += (t1.length - t2.length)
-            return ['delete', i, i+t1.length-t2.length]
+            return ['delete', i, (t1.length - t2.length)]
         }
         IF += (t1.length - j + 1 - i);
-        return ['replace', i, t1.length - j + 1]
+        return ['replace', i, (t1.length - j + 1 - i)]
     }
     return ['u', 0, 0];
 }
@@ -342,11 +343,11 @@ function getGuessResult(p, t) {
 function compareNlog(r, t1, t2) {
     reslog = "";
     if (r[0] == 'delete') {
-        reslog += ('<p>' + r[0] + ' from ' + r[1] + ' to ' + r[2] + '&#9;<span class="red">' + t1.substring(r[2], r[1])+'</span></p>');
+        reslog += ('<p>' + r[0] + ' from ' +  (r[1]+r[2]) + 'to ' + r[1] + '&#9;<span class="red">' + t1.substring(r[1], r[1]+r[2])+'</span></p>');
     } else if (r[0] == 'insert') {
         reslog += ('<p>' + r[0] + ' from ' + r[1] + ' count ' + r[2] + '&#9;<span class="green">' + t2.substr(r[1], r[2]) + '</span></p>');
     } else {
-        reslog += ('<p>' + r[0] + ' from ' + r[1] + ' to ' + r[2] + '&#9;<span class="blue">' + t2.substr(r[1], r[2]) + '</span></p>');
+        reslog += ('<p>' + r[0] + ' from ' + r[1] + ' to ' + (r[1]+r[2]) + '&#9;<span class="blue">' + t2.substr(r[1], r[1]+r[2]) + '</span></p>');
     }
     return reslog;
 }
@@ -704,13 +705,14 @@ function JsonToCSV(json){
             if (action[0] == 'replace'){
                 SAC += 1
                 fix_time += (ts[i].TimeStamp - ts[i-1].TimeStamp)
-                IFc += getIFc(ts[i-1].Text, item.Present, action[1], action[2])[3].length
-            }                
+                let res = getIFc(ts[i-1].Text, item.Present, action[1], action[1]+action[2])
+                IFc += res[3].length
+            }
             else if (action[0] == 'delete'){
                 DAC += 1   
                 fix_time += (ts[i].TimeStamp - ts[i-1].TimeStamp)
                 delete_time += (ts[i].TimeStamp - ts[i-1].TimeStamp)
-                let res = getIFc(ts[i-1].Text, item.Present, action[1], action[2])
+                let res = getIFc(ts[i-1].Text, item.Present, action[1], action[1]+action[2])
                 IFc += res[3].length
             }                
             else 
