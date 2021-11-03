@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    
+
 <div class="ui sidebar inverted left vertical menu ">
     <a class="item">
         <br><br>
@@ -28,12 +28,12 @@
     <div class="ui black big launch right attached button">
         <i class="icon list layout"></i>
     </div>
-    
+
     <div class="ui center aligned header" id="Title">
         <h1>TextTest++</h1>
-        <a href="https://github.com/DrustZ/TextTestPP" target="_blank" id="aboutlink">Source Code</a>    
+        <a href="https://github.com/DrustZ/TextTestPP" target="_blank" id="aboutlink">Source Code</a>
     </div>
-    
+
     <div id="main-sec" >
 
         <div class="ui text container">
@@ -52,7 +52,7 @@
                 <button class="ui green button" id="Next">Next</button>
             </div>
         </div>
-        
+
         <div class="ui text container" id="SettingDevider">
             <div class="ui styled fluid accordion">
                 <div class="title">
@@ -78,7 +78,7 @@
                                         <input type="checkbox" id="SetTotal">
                                         <label>Stop test after <input type="number" id="numofPhrase" value="40" min="1" disabled="true"> phrases</label>
                                     </div>
-                                    
+
                                     <button class="ui mini green button" id="Shuffle">Shuffle whole set</button>
                                 </div></div>
                         </div>
@@ -111,7 +111,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="ui text container middle aligned stackable grid">
             <div class="four wide column">
                 <button class="small ui blue button" id="Analysis">Analyze</button>
@@ -129,7 +129,7 @@
                     <input type="file" id="inputJson" size="chars">
                     <button class="small blue ui button" id="UploadJSON">Upload log</button>
                 </div>
-            </div>        
+            </div>
         </div>
         <br/>
 
@@ -137,8 +137,8 @@
             <div id="vis"></div>
         </div>
     </div>
-    
-    <div id="tutorial-sec" hidden> 
+
+    <div id="tutorial-sec" hidden>
         <div class="ui text container">
             <div class="stackedit__html"><h1 id="tutorial">Tutorial</h1>
             <p>Welcome to TextTest++, a WEB platform for text entry test. The output of the test data can be seamlessly plugged in the throughput calculation project <a href="https://github.com/DrustZ/Throughput" target="_blank"> here </a>. We build our platform purely with JS, thus you won’t worry about network-delay  when testing. After loading the webpage, you’re good to go! </p>
@@ -159,7 +159,7 @@
             <h4 id="randomize-phrases">Randomize Phrases</h4>
             <p>The default order of phrases is the same order as the phrase file. To randomize the test order, you could click the "Shuffle whole set" button.</p>
             <p>If you check the box of "Stop test after", and modify the number, then the test will end after the number of phrases are completed.<br>
-           
+
             <h4 id="other-settings">Other Settings</h4>
             <ul>
             <li>Ignore Case - check <strong>Ignore Case</strong> in settings to ignore case between comparison of Present string and Transcribed string</li>
@@ -182,7 +182,7 @@
               <img src="imgs/graph.png">
             </div>
             The graph is especially useful when you want to "clean out" some accidental data. for example, if one accidentally hit <strong>Next</strong> before he is finishing the phrase, you might find the phrase using the graph, because the UER (Uncorrected Error Rate) will be very high of the phrase.
-                
+
             <h4 id="download-data">Download Data</h4>
             <p>You can set the custom file name or leave the filename section empty, which will generate a file named “TextTest”. Select the type of file and download. You can download all types.</p>
 
@@ -210,7 +210,7 @@
             </div>
         </div>
     </div>
-    
+
     <div id="reference-sec" hidden>
         <div class="ui container">
         <table class="ui celled inverted grey table">
@@ -254,7 +254,7 @@
                     <p>TCC = Tlen + 2 × IF</p>
                   </div>
               </td>
-            </tr>  
+            </tr>
             <tr>
               <td>IF</td>
               <td>IF (Incorrect Fixed) class, contains all deleted characters in the T-sequence</td>
@@ -278,7 +278,7 @@
             <tr>
               <td>AC</td>
               <td>Action count, the number of actions taken during the text entry process</td>
-            </tr>  
+            </tr>
             <tr>
               <td>DAC</td>
               <td>Delete action count</td>
@@ -313,7 +313,7 @@
                   <div class="content">
                     <p>CER = IF / (C + INF + IF)</p>
                   </div>
-              </td> 
+              </td>
             </tr>
             <tr>
               <td>TER</td>
@@ -325,7 +325,7 @@
                   <div class="content">
                     <p>TER = (INF + IF) / (C + INF + IF)</p>
                   </div>
-              </td>  
+              </td>
             </tr>
             <tr>
               <td>CPA</td>
@@ -462,15 +462,15 @@
                 <li><strong>Present</strong> is the presented string</li>
                 <li><strong>IF/INF/C/CER/UER/TER</strong> is the corresponding metric</li>
             </ul>
-        </div>        
+        </div>
         <br>
     </div>
-    
+
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vega/3.0.7/vega.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.0.0/vega-lite.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-rc6/vega-embed.js"></script>
-    
+
     <script
       src="https://code.jquery.com/jquery-3.1.1.min.js"
       integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
