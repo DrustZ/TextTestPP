@@ -1,0 +1,7 @@
+{
+  "main": "index.html",
+  "dependencies": {
+    "jquery": "^3.6.0",
+    "nodemon": "^2.0.14"
+  }
+}
