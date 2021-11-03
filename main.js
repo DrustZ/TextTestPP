@@ -27,6 +27,8 @@ var DefaultName = "TextTest"
 //logic vars
 var Started = false;
 
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
 $('.ui.accordion')
   .accordion()
 ;
@@ -35,7 +37,7 @@ $.ajax({
     url:'phrases.txt',
     success: function (data){
     allphrases = data.split('\n');
-    Allphrases = allphrases;    
+    Allphrases = allphrases;
 //    shuffle(allphrases);
     PresentString = allphrases[phrasecount].replace(/^\s+|\s+$/g, '');
     $('#Present').html(PresentString);
@@ -66,7 +68,7 @@ $("#upload").click(function(){
         alert('Your browser is not supported')
     }
     var input = $("#fileInput").get(0);
-    
+
     // Create a reader object
     var reader = new FileReader();
     if (input.files.length) {
@@ -75,7 +77,7 @@ $("#upload").click(function(){
         $(reader).on('load', processFile);
     } else {
         alert('Please upload a file before continuing')
-    } 
+    }
 })
 
 //process the upload phrase file
@@ -141,6 +143,7 @@ $("#Transcribe").bind("mouseup", function() {
     }, 1);
 })
 
+// WORK HERE PROBABLY
 //whenever there's a change happens in the transcribed string (e.g. an Action happens)
 //this function is triggered
 $("#Transcribe").bind("keyup click focus input propertychange", function() {
@@ -149,21 +152,21 @@ $("#Transcribe").bind("keyup click focus input propertychange", function() {
     if (currentVal == oldVal) {
         return; //check to prevent multiple simultaneous triggers
     }
-    
+
     ItemJson["Transcribe"].push({Text: currentVal, TimeStamp: Date.now()})
-    
+
     var res = guessChangeInfo(oldVal, currentVal);
     var log = '<p><span class="yellow">' + oldVal + ' -> ' + currentVal + '</span></p>';
     log += compareNlog(res, oldVal, currentVal);
     ItemJson["Action"].push(res)
-    
+
 	if (res[0] == 'delete' || res[0] == 'replace'){
         strs = getIFc(oldVal, PresentString, res[1], res[1]+res[2])
     	log += ('<p>T   : <span class="purple">'+strs[0]+'</span></p><p>P   : <span class="purple">'+strs[2]+'</span></p><p>Same: '+strs[1]+'</p>');
-        
+
         log += '<p>Removed but correct: '+ strs[3] + ' (IFc: ' + strs[3].length + ')</p>';
     }
-    
+
 	oldVal = currentVal;
     tsequence.push(currentVal);
     ItemLog += (log + "<br/>");
@@ -186,33 +189,33 @@ $("#Next").click(function() {
     if ( !$("#Transcribe").val() ) return;
     res = getGuessResult(PresentString, tsequence[tsequence.length - 1]);
     ItemLog = ("<p>Change Result: INF " + res[0] + " IF " + IF + " C " + res[1] + "</p>" + ItemLog);
-    
+
     ItemJson["Trial"] = phrasecount;
     ItemJson["Present"] = PresentString;
     ItemJson["IF"] = IF, ItemJson["INF"] = res[0], ItemJson["C"] = res[1];
-    ItemJson["CER"] = (IF/(IF+res[1]+res[0])).toFixed(3) 
-    ItemJson["UER"] = (res[0]/(IF+res[1]+res[0])).toFixed(3) 
+    ItemJson["CER"] = (IF/(IF+res[1]+res[0])).toFixed(3)
+    ItemJson["UER"] = (res[0]/(IF+res[1]+res[0])).toFixed(3)
     ItemJson["TER"] = ((IF+res[0])/(IF+res[1]+res[0])).toFixed(3)
     ItemJson["Transcribed"] = tsequence[tsequence.length - 1];
     let ts = ItemJson["Transcribe"]
     ItemJson["Time"] = ts[ts.length-1].TimeStamp - ts[0].TimeStamp;
     AllJson.push(JSON.parse(JSON.stringify(ItemJson)));
     ItemJson = { Transcribe: [], Action: [] };
-    
+
     clearContent();
-    
+
     phrasecount += 1
     totalcount += 1
-    
+
     if (phraselimit > 0 && totalcount >= phraselimit)
         $('#phraseCount').html('<inline style="color:red;"> Task Done!</inline>')
-    
+
     if (phrasecount >= allphrases.length){
         phrasecount = 0;
     }
     PresentString = allphrases[phrasecount].replace(/^\s+|\s+$/g, '')
     $('#Present').html(PresentString)
-    
+
     if ($('#phraseCount').html().startsWith('Phrase')){
         $('#phraseCount').html('Phrase Count '+totalcount)
     }
@@ -388,16 +391,16 @@ const levenshtein = (a, b) => {
     return row[a.length]
 }
 
-//following are align functions 
+//following are align functions
 function getIFc(oldVal, PresentString, start, end){
     	strs = ENWalignment(oldVal, PresentString)
-        
+
         let pos1 = -1, pos2 = strs[0].length, cnt = -1
         for (var i = 0; i < strs[0].length; ++i){
         	if (strs[0][i] != '-')
             	cnt += 1
-            if (cnt == start && pos1 == -1) pos1 = i 
-            if (cnt+1 == end && pos2 == strs[0].length) pos2 = i 
+            if (cnt == start && pos1 == -1) pos1 = i
+            if (cnt+1 == end && pos2 == strs[0].length) pos2 = i
         }
     let correct = strs[1].substring(pos1, pos2+1).split('-').join("");
     if (start > pos1)
@@ -456,7 +459,7 @@ function finalize(align1, align2) {
 //    console.log("a1: %c" + align1, "color: #9e42f4")
 //    console.log("sb: " + symbol )
 //    console.log("a2: %c" + align2, "color: #9e42f4")
-    
+
     return [align1, symbol, align2]
 }
 
@@ -483,11 +486,11 @@ function ENWalignment(seq1, seq2) {
             let insert_new = score[i][j - 1] + gap_penalty_open
             let insert_old = gaps[i][j - 1] + gap_penalty_expand
             gaps[i][j] = Math.max(delete_new, delete_old, insert_new, insert_old)
-            
+
             let match = score[i - 1][j - 1] + match_score(seq1[i - 1], seq2[j - 1])
             let gap = gaps[i - 1][j - 1] + match_score(seq1[i - 1], seq2[j - 1])
             score[i][j] = Math.max(match, gap)
-            
+
         }
     }
     let max_score = 0
@@ -517,7 +520,7 @@ function ENWalignment(seq1, seq2) {
         let max_current = Math.max(score_current, gap_current)
 
         let ms = match_score(seq1[i - 1], seq2[j - 1])
-            //for score 
+            //for score
         let ss = score[i - 1][j - 1] + ms
         let gs = gaps[i - 1][j - 1] + ms
             //for gaps
@@ -579,8 +582,8 @@ $("#Download").click(function(){
     var fname = DefaultName
     if ($("#Filename").val() != "")
         fname = $("#Filename").val()
-    
-    if ($("#Selectformat").val() == 0){ 
+
+    if ($("#Selectformat").val() == 0){
         download(fname+".json", JSON.stringify(CurrentJson, null, '\t'));
     } else if ($("#Selectformat").val() == 1){
         var csv = JsonToCSV(CurrentJson)
@@ -611,7 +614,7 @@ $('#UploadJSON').click(function(){
 
 $('#inputJson').change(function(){
     var input = $("#inputJson").get(0);
-    
+
     // Create a reader object
     var reader = new FileReader();
     if (input.files.length) {
@@ -627,7 +630,7 @@ $('#inputJson').change(function(){
                     vegaEmbed('#vis', visRule)
                 }
         })
-    } 
+    }
 })
 
 //utils
@@ -654,7 +657,7 @@ $("#Analysis").click(function(){
 //helper function for Vega visualization of the result
 function defVegaJson(){
     var rule = {$schema: "https://vega.github.io/schema/vega-lite/v2.json", description:"embed view", mark: "line", width: $("#LogContainer").width()*1.3, selection: {grid: {type: "interval", bind:"scales"} }}
-    
+
     var datas = []
     var yfs = ["TER", "CER", "UER"]
     var labels = ["Total Error Rate", "Corrected Error Rate", "Uncorrected Error Rate"]
@@ -663,7 +666,7 @@ function defVegaJson(){
             datas.push({Rate: CurrentJson[i][yfs[j]], category: labels[j], Trial: i})
         }
     }
-    
+
     var x = {field:"Trial", type:"ordinal", axis: {labelAngle: 0}}
     var y = {field:"Rate", type:"quantitative"}
     rule["data"] = {values: datas}
@@ -691,14 +694,14 @@ function JsonToCSV(json){
         let ts = item.Transcribe, actions = item.Action
         if (ts.length == 0) continue;
         let time = (ts[ts.length-1].TimeStamp - ts[0].TimeStamp) / 1000, fix_time = 0, delete_time = 0
-        
+
         let Tlen = ts[ts.length-1].Text.length
         let AC = actions.length, DAC = 0, IAC = 0, SAC = 0
         let TCC = Tlen + item.IF*2
-        
+
         let WPM = (Tlen-ts[0].Text.length) / (time/12), FPM = 0, TCCPM = (TCC -ts[0].Text.length) / (time/12), CPA = TCC / AC, TPA = Tlen / AC
-        
-        let AE = (TCC - ts[0].Text.length) / time, 
+
+        let AE = (TCC - ts[0].Text.length) / time,
             FE = 0, TE = (Tlen-ts[0].Text.length) / time, IE = 0, IFc = 0
         for (let i = 0; i < actions.length; ++i){
             let action = actions[i]
@@ -709,29 +712,29 @@ function JsonToCSV(json){
                 IFc += res[3].length
             }
             else if (action[0] == 'delete'){
-                DAC += 1   
+                DAC += 1
                 fix_time += (ts[i].TimeStamp - ts[i-1].TimeStamp)
                 delete_time += (ts[i].TimeStamp - ts[i-1].TimeStamp)
                 let res = getIFc(ts[i-1].Text, item.Present, action[1], action[1]+action[2])
                 IFc += res[3].length
-            }                
-            else 
+            }
+            else
                 IAC += 1
         }
-        
+
         let FPA = item.IF / Math.max((DAC + SAC), 1)
         let IPA = (Tlen + item.IF) / (IAC + SAC)
-        
+
         fix_time = fix_time / 1000
         let insert_time = time - delete_time / 1000
-        
+
         FPM = (item.IF) / Math.max((fix_time/12), 1e-10)
         FE = item.IF / Math.max(fix_time, 1e-10)
         IE = (Tlen+item.IF-ts[0].Text.length) / insert_time
-        
+
         csv += [j, time, fix_time, insert_time, Tlen, item.Present.length, TCC, item.IF, item.INF, item.C, WPM, TCCPM, AC, DAC, IAC, SAC, item.UER, item.CER, item.TER, CPA, TPA, FPA, IPA, AE, FE, IE, TE, IFc, (item.IF-IFc)].map(function(n){return Number(n).toFixed(2)}).join(',') + '\n'
     }
-    return csv    
+    return csv
 }
 
 //random shuffle array with a seed
