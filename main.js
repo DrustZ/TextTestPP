@@ -143,7 +143,6 @@ $("#Transcribe").bind("mouseup", function() {
     }, 1);
 })
 
-// WORK HERE PROBABLY
 //whenever there's a change happens in the transcribed string (e.g. an Action happens)
 //this function is triggered
 $("#Transcribe").bind("keyup click focus input propertychange", function() {
@@ -174,8 +173,13 @@ $("#Transcribe").bind("keyup click focus input propertychange", function() {
     $('#LogDisplay').scrollTop( $('#LogDisplay').prop("scrollHeight") );
 });
 
+//**  WORK HERE **//
 $("#Transcribe").keypress(function(){
     var key = window.event.keyCode;
+    var currentTime = new Date().getTime();
+    window.alert("Hello");
+//    while (currentTime + miliseconds >= new Date().getTime()) {
+//    }
     if (key == 13){ // enter pressed
         if ($("#EnterNext").prop("checked")){
             $("#Next").click();
