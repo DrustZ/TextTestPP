@@ -174,12 +174,23 @@ $("#Transcribe").bind("keyup click focus input propertychange", function() {
 });
 
 //**  WORK HERE **//
+let timeout = null;
+
 $("#Transcribe").keypress(function(){
     var key = window.event.keyCode;
-    var currentTime = new Date().getTime();
-    window.alert("Hello");
+
+    console.log(event.key);
+//    window.alert("Hello");
+
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+        console.log('Input Value:', key);
+    }, 1000);
+
+//    var currentTime = new Date().getTime();
 //    while (currentTime + miliseconds >= new Date().getTime()) {
 //    }
+
     if (key == 13){ // enter pressed
         if ($("#EnterNext").prop("checked")){
             $("#Next").click();
