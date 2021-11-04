@@ -171,21 +171,68 @@ $("#Transcribe").bind("keyup click focus input propertychange", function() {
     ItemLog += (log + "<br/>");
     $('#LogDisplay').html(ItemLog);
     $('#LogDisplay').scrollTop( $('#LogDisplay').prop("scrollHeight") );
+
+    //** WORK HERE **//
+    var disabled = false;
+
+    if (!disabled) {
+//        $("#Transcribe").prop('disabled', true);		// if not disabled, disable
+////        sleep(1000);
+//        $("#Transcribe").prop('disabled', false);		// re-enable
+//        $("#Transcribe").focus();		                // focus the cursor back on text field
+
+        $("#Transcribe").prop('disabled', true);		// if not disabled, disable
+        document.getElementById("DisableStatus").innerHTML = "Disabled";
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+            $("#Transcribe").prop('disabled', false);		// re-enable
+            document.getElementById("DisableStatus").innerHTML = "Enabled";
+            $("#Transcribe").focus();		                // focus the cursor back on text field
+        }, 1000);
+    }
 });
 
 //**  WORK HERE **//
 let timeout = null;
 
+// sleep function to delay execution of the thread
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
+
 $("#Transcribe").keypress(function(){
     var key = window.event.keyCode;
+    var disabled = false;
 
     console.log(event.key);
-//    window.alert("Hello");
 
-    clearTimeout(timeout);
-    timeout = setTimeout(function () {
-        console.log('Input Value:', key);
-    }, 1000);
+//    $('#submit').click(function() {
+//        if (disabled) {
+//          $("#Transcribe").prop('disabled', false);		// if disabled, enable
+//        } else {
+//          $("#Transcribe").prop('disabled', true);		// if enabled, disable
+//        }
+//        disabled = !disabled;
+//    })
+
+//    if (!disabled) {
+//      $("#Transcribe").prop('disabled', true);		// if not disabled, disable
+////      sleep(1000);
+////      disabled = !disabled;
+//      $("#Transcribe").prop('disabled', false);		// re-enable
+//    }
+
+//    window.alert("Hello");
+//    sleep(1000);
+
+//    clearTimeout(timeout);
+//    timeout = setTimeout(function () {
+//        console.log('Input Value:', key);
+//    }, 1000);
 
 //    var currentTime = new Date().getTime();
 //    while (currentTime + miliseconds >= new Date().getTime()) {
@@ -199,6 +246,8 @@ $("#Transcribe").keypress(function(){
     }
     return true;
 })
+
+//** END WORK **//
 
 $("#Next").click(function() {
     if ( !$("#Transcribe").val() ) return;
