@@ -200,7 +200,7 @@ function sleep(milliseconds) {
 $("#Transcribe").keypress(function(){
     var key = window.event.keyCode;
 
-    console.log(event.key);     // ************* for debugging, DELETE LATER *************
+    console.log(event.key);     // ************* MUC for debugging, DELETE LATER *************
 
     if (key == 13){ // enter pressed
         if ($("#EnterNext").prop("checked")){
