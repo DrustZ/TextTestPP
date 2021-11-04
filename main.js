@@ -27,7 +27,8 @@ var DefaultName = "TextTest"
 //logic vars
 var Started = false;
 
-// <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+// MUC vars for restricting typing speed
+let timeout = null;
 
 $('.ui.accordion')
   .accordion()
@@ -172,15 +173,10 @@ $("#Transcribe").bind("keyup click focus input propertychange", function() {
     $('#LogDisplay').html(ItemLog);
     $('#LogDisplay').scrollTop( $('#LogDisplay').prop("scrollHeight") );
 
-    //** WORK HERE **//
+    //** MUC WORK HERE **//
     var disabled = false;
 
     if (!disabled) {
-//        $("#Transcribe").prop('disabled', true);		// if not disabled, disable
-////        sleep(1000);
-//        $("#Transcribe").prop('disabled', false);		// re-enable
-//        $("#Transcribe").focus();		                // focus the cursor back on text field
-
         $("#Transcribe").prop('disabled', true);		// if not disabled, disable
         document.getElementById("DisableStatus").innerHTML = "Disabled";
         clearTimeout(timeout);
@@ -191,9 +187,6 @@ $("#Transcribe").bind("keyup click focus input propertychange", function() {
         }, 1000);
     }
 });
-
-//**  WORK HERE **//
-let timeout = null;
 
 // sleep function to delay execution of the thread
 function sleep(milliseconds) {
@@ -206,37 +199,8 @@ function sleep(milliseconds) {
 
 $("#Transcribe").keypress(function(){
     var key = window.event.keyCode;
-    var disabled = false;
 
-    console.log(event.key);
-
-//    $('#submit').click(function() {
-//        if (disabled) {
-//          $("#Transcribe").prop('disabled', false);		// if disabled, enable
-//        } else {
-//          $("#Transcribe").prop('disabled', true);		// if enabled, disable
-//        }
-//        disabled = !disabled;
-//    })
-
-//    if (!disabled) {
-//      $("#Transcribe").prop('disabled', true);		// if not disabled, disable
-////      sleep(1000);
-////      disabled = !disabled;
-//      $("#Transcribe").prop('disabled', false);		// re-enable
-//    }
-
-//    window.alert("Hello");
-//    sleep(1000);
-
-//    clearTimeout(timeout);
-//    timeout = setTimeout(function () {
-//        console.log('Input Value:', key);
-//    }, 1000);
-
-//    var currentTime = new Date().getTime();
-//    while (currentTime + miliseconds >= new Date().getTime()) {
-//    }
+    console.log(event.key);     // ************* for debugging, DELETE LATER *************
 
     if (key == 13){ // enter pressed
         if ($("#EnterNext").prop("checked")){
@@ -246,8 +210,6 @@ $("#Transcribe").keypress(function(){
     }
     return true;
 })
-
-//** END WORK **//
 
 $("#Next").click(function() {
     if ( !$("#Transcribe").val() ) return;
