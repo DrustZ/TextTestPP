@@ -175,7 +175,22 @@ $("#Transcribe").bind("keyup click focus input propertychange", function() {
 
     //** MUC WORK HERE **//
     var disabled = false;
+    timeOutInMil = null;
 
+    window.addEventListener('keydown', function(e) {
+        if(e.keyCode == 32 && e.target == document.body) {
+          e.preventDefault();
+        }
+      });
+
+    function saveDelay() {
+        timeOutInMil = document.getElementById("DelayTime").value
+        console.log("delay time set to:", timeOutInMil)
+        document.getElementById("DisplayDelayTime").innerHTML = timeOutInMil
+    }
+    document.getElementById("SaveDelayButton").addEventListener("click", saveDelay);
+    timeOutInMil = parseInt(document.getElementById("DisplayDelayTime").innerHTML) 
+    
     if (!disabled) {
         $("#Transcribe").prop('disabled', true);		// if not disabled, disable
         document.getElementById("DisableStatus").innerHTML = "Disabled";
@@ -184,7 +199,7 @@ $("#Transcribe").bind("keyup click focus input propertychange", function() {
             $("#Transcribe").prop('disabled', false);		// re-enable
             document.getElementById("DisableStatus").innerHTML = "Enabled";
             $("#Transcribe").focus();		                // focus the cursor back on text field
-        }, 1000);
+        }, timeOutInMil);
     }
 });
 
