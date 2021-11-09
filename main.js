@@ -176,13 +176,12 @@ $("#Transcribe").bind("keyup click focus input propertychange", function() {
     //** MUC WORK HERE **//
     var disabled = false;
     timeOutInMil = null;
-    // $("#SaveDelayButton").click(function(){
-    //     console.log("timeOutInMil:", timeOutInMil);
-    //     if (document.getElementById("DelayTime") !== null) {
-    //         timeOutInMil = document.getElementById("DelayTime").value
-    //         console.log("delaytime set to:", timeOutInMil)
-    //     }
-    // })
+
+    window.addEventListener('keydown', function(e) {
+        if(e.keyCode == 32 && e.target == document.body) {
+          e.preventDefault();
+        }
+      });
 
     function saveDelay() {
         timeOutInMil = document.getElementById("DelayTime").value
