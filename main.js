@@ -32,23 +32,23 @@ var Started = false;
 let timeout = null;
 
 $('.ui.accordion')
-  .accordion()
-;
+   .accordion()
+ ;
 
-$.ajax({
-    url:'phrases.txt',
-    success: function (data){
-    allphrases = data.split('\n');
-    allPhrasesBySpace = data.split(' ');
-//    allPhrasesBySpace = allPhrasesBySpace.split('\n');
-//    console.log(allphrases);
-    console.log(allPhrasesBySpace);
-    Allphrases = allphrases;
-//    shuffle(allphrases);
-    PresentString = allphrases[phrasecount].replace(/^\s+|\s+$/g, '');
-    $('#Present').html(PresentString);
-}
-});
+ $.ajax({
+     url:'phrases.txt',
+     success: function (data){
+     allphrases = data.split('\n');
+     allPhrasesBySpace = data.split(' ');
+ //    allPhrasesBySpace = allPhrasesBySpace.split('\n');
+ //    console.log(allphrases);
+     console.log(allPhrasesBySpace);
+     Allphrases = allphrases;
+ //    shuffle(allphrases);
+     PresentString = allphrases[phrasecount].replace(/^\s+|\s+$/g, '');
+     $('#Present').html(PresentString);
+ }
+ });
 
 // side bar stuff and page transition
 $(".ui.sidebar").sidebar()
@@ -292,6 +292,8 @@ $("#Transcribe").bind("keyup click focus input propertychange", function() {
     $('#LogDisplay').scrollTop( $('#LogDisplay').prop("scrollHeight") );
 
     //** MUC WORK HERE **//
+    //Transcribe
+
     var disabled = false;
     timeOutInMil = null;
 
