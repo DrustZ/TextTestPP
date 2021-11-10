@@ -31,6 +31,25 @@ var Started = false;
 // MUC vars for restricting typing speed
 let timeout = null;
 
+$('.ui.accordion')
+  .accordion()
+;
+
+$.ajax({
+    url:'phrases.txt',
+    success: function (data){
+    allphrases = data.split('\n');
+    allPhrasesBySpace = data.split(' ');
+//    allPhrasesBySpace = allPhrasesBySpace.split('\n');
+//    console.log(allphrases);
+    console.log(allPhrasesBySpace);
+    Allphrases = allphrases;
+//    shuffle(allphrases);
+    PresentString = allphrases[phrasecount].replace(/^\s+|\s+$/g, '');
+    $('#Present').html(PresentString);
+}
+});
+
 // side bar stuff and page transition
 $(".ui.sidebar").sidebar()
                 .sidebar('attach events','.ui.launch.button');
@@ -226,7 +245,7 @@ $("#Shuffle").click(function(){
 
 //refresh process
 function clearContent(){
-    $("#autoComplete").val('');
+    $("#Transcribe").val('');
     IF = 0, tsequence = [""], carets = [
         [0, 0]
     ], oldVal = "", last_position = 0;
@@ -273,8 +292,6 @@ $("#Transcribe").bind("keyup click focus input propertychange", function() {
     $('#LogDisplay').scrollTop( $('#LogDisplay').prop("scrollHeight") );
 
     //** MUC WORK HERE **//
-    //Transcribe
-    
     var disabled = false;
     timeOutInMil = null;
 
@@ -293,13 +310,13 @@ $("#Transcribe").bind("keyup click focus input propertychange", function() {
     timeOutInMil = parseInt(document.getElementById("DisplayDelayTime").innerHTML)
 
     if (!disabled) {
-        $("#autoComplete").prop('disabled', true);		// if not disabled, disable
+        $("#Transcribe").prop('disabled', true);		// if not disabled, disable
         document.getElementById("DisableStatus").innerHTML = "Disabled";
         clearTimeout(timeout);
         timeout = setTimeout(function () {
-            $("#autoComplete").prop('disabled', false);		// re-enable
+            $("#Transcribe").prop('disabled', false);		// re-enable
             document.getElementById("DisableStatus").innerHTML = "Enabled";
-            $("#autoComplete").focus();		                // focus the cursor back on text field
+            $("#Transcribe").focus();		                // focus the cursor back on text field
         }, timeOutInMil);
     }
 });
@@ -313,7 +330,7 @@ function sleep(milliseconds) {
   } while (currentDate - date < milliseconds);
 }
 
-$("#autoComplete").keypress(function(){
+$("#Transcribe").keypress(function(){
     var key = window.event.keyCode;
 
     console.log(event.key);     // ************* MUC for debugging, DELETE LATER *************
@@ -328,7 +345,7 @@ $("#autoComplete").keypress(function(){
 })
 
 $("#Next").click(function() {
-    if ( !$("#autoComplete").val() ) return;
+    if ( !$("#Transcribe").val() ) return;
     res = getGuessResult(PresentString, tsequence[tsequence.length - 1]);
     ItemLog = ("<p>Change Result: INF " + res[0] + " IF " + IF + " C " + res[1] + "</p>" + ItemLog);
 
@@ -338,8 +355,8 @@ $("#Next").click(function() {
     ItemJson["CER"] = (IF/(IF+res[1]+res[0])).toFixed(3)
     ItemJson["UER"] = (res[0]/(IF+res[1]+res[0])).toFixed(3)
     ItemJson["TER"] = ((IF+res[0])/(IF+res[1]+res[0])).toFixed(3)
-    ItemJson["autoComplete"] = tsequence[tsequence.length - 1];
-    let ts = ItemJson["autoComplete"]
+    ItemJson["Transcribed"] = tsequence[tsequence.length - 1];
+    let ts = ItemJson["Transcribe"]
     ItemJson["Time"] = ts[ts.length-1].TimeStamp - ts[0].TimeStamp;
     AllJson.push(JSON.parse(JSON.stringify(ItemJson)));
     ItemJson = { Transcribe: [], Action: [] };
