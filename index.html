@@ -38,25 +38,35 @@
 
         <div class="ui text container">
             <div class="ui segment" id="Present">Loading...</div>
-
-            <!--Make sure the form has the autocomplete function switched off:-->
-<!--            <form autocomplete="off" action="/action_page.php">-->
-<!--                <div class="autocomplete" style="width:300px;">-->
-<!--                    <input id="myInput" type="text" name="myCountry" placeholder="Country">-->
-<!--                </div>-->
-<!--            </form>-->
-
-            <form autocomplete="off" action="/action_page.php">
-                <div class="autocomplete" style="width:700px">
-                    <input type="text" class="ui raised segment" id="Transcribe" spellcheck="false"></input>
-                </div>
-            </form>
-
-<!--            <div class="autocomplete">-->
-<!--                <input type="text" class="ui raised segment" id="Transcribe" spellcheck="false"></input>-->
-<!--            </div>-->
-
-<!--            <input type="text" class="ui raised segment" id="Transcribe" spellcheck="false"></input>-->
+            <input type="text" class="ui raised segment" id="autoComplete" spellcheck="false"></input>
+            <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.6/dist/autoComplete.min.js"></script>
+            <!-- <script  type="module">
+                const autoCompleteJS = new autoComplete({
+                    placeHolder: "Search for Food...",
+                    data: {
+                        src: ["the", "of", "and", "to", "a", "in", "for", "is", "on", "that", "by", "this", "with"],
+                        cache: true,
+                    },
+                    query: (input) => {
+                        const wordArray = input.split(" ");
+                        console.log(wordArray);
+                        console.log(wordArray.at(-1));
+                        const currString = wordArray.at(-1);
+                        return currString;
+                    },
+                    resultItem: {
+                        highlight: true
+                    },
+                    events: {
+                        input: {
+                            selection: (event) => {
+                                const selection = event.detail.selection.value;
+                                autoCompleteJS.input.value = selection;
+                            }
+                        }
+                    }
+                });
+            </script> -->
             <div id="DisableStatus">Enabled</div>
             <div class="ui fitted divider" style="border-color:white;"></div>
             <div id="AlignBtn" class="ui stackable">
