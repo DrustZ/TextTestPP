@@ -31,7 +31,7 @@
     font-size: 1.2em;
 }
 
-#Transcribe {
+#autoComplete {
     width: 100%;
     resize: none;
     font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
@@ -45,7 +45,7 @@
     #Present {
         font-size: 1em;
     }
-    #Transcribe {
+    #autoComplete {
         font-size: 1em;
     }
     #aboutlink {
