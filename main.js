@@ -42,7 +42,7 @@ $('.ui.accordion')
      allPhrasesBySpace = data.split(' ');
  //    allPhrasesBySpace = allPhrasesBySpace.split('\n');
  //    console.log(allphrases);
-     console.log(allPhrasesBySpace);
+     //console.log(allPhrasesBySpace);
      Allphrases = allphrases;
  //    shuffle(allphrases);
      PresentString = allphrases[phrasecount].replace(/^\s+|\s+$/g, '');
@@ -125,7 +125,7 @@ function autocompleteProcessFile(e) {
         results;
     if (file && file.length) {
         allphrases = file.split("\n");
-        console.log(allphrases, Array.isArray(allphrases))
+        //console.log(allphrases, Array.isArray(allphrases))
         autocompleteWords = allphrases 
     }
     setupAutocomplete();
@@ -184,7 +184,6 @@ function setupAutocomplete() {
       autoCompleteJS.input.blur();
       // Prepare User's Selected Value
       //const selection = feedback.selection.value[feedback.selection.key];
-      console.log("heldsfa", restOfString)
       if (restOfString.length > 0 ) {
           restOfString = restOfString + " "
       }
@@ -297,10 +296,15 @@ $("#autoComplete").bind("keyup click focus input propertychange", function() {
     if (!disabled) {
         $("#autoComplete").prop('disabled', true);		// if not disabled, disable
         document.getElementById("DisableStatus").innerHTML = "Disabled";
+        console.log(timeOutInMil, "tom");
+        if (timeOutInMil > 0) {
+            document.getElementById("DisableStatus").style.backgroundColor = "#fc2403";
+        }
         clearTimeout(timeout);
         timeout = setTimeout(function () {
             $("#autoComplete").prop('disabled', false);		// re-enable
             document.getElementById("DisableStatus").innerHTML = "Enabled";
+            document.getElementById("DisableStatus").style.backgroundColor = "#5b8c12";
             $("#autoComplete").focus();		                // focus the cursor back on text field
         }, timeOutInMil);
     }
