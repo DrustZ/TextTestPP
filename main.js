@@ -128,6 +128,61 @@ function autocompleteProcessFile(e) {
         console.log(allphrases, Array.isArray(allphrases))
         autocompleteWords = allphrases 
     }
+    setupAutocomplete();
+}
+
+function setupAutocomplete() {
+    console.log("sert");
+    const autoCompleteJS = new autoComplete({
+        placeHolder: "Search for Food...",
+        data: {
+            src: autocompleteWords,
+            cache: true,
+        },
+        query: (input) => {
+            const wordArray = input.split(" ");
+            console.log(wordArray.at(-1));
+            const currString = wordArray.at(-1);
+            return currString;
+        },
+
+        resultItem: {
+          element: (item, data) => {
+            console.log("d",data)
+            // Modify Results Item Style
+            item.style = "display: flex; justify-content: space-between;";
+            // Modify Results Item Content
+            item.innerHTML = `
+            <span style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+              ${data.match}
+            </span>
+            `;
+          },
+          highlight: "autoComplete_highlight",
+          selected: "autoComplete_selected"
+        },
+        events: {
+            input: {
+                selection: (event) => {
+                    const selection = event.detail.selection.value;
+                    autoCompleteJS.input.value = selection;
+                }
+            }
+        }
+    });
+
+    autoCompleteJS.input.addEventListener("selection", function (event) {
+      const feedback = event.detail;
+      autoCompleteJS.input.blur();
+      // Prepare User's Selected Value
+      const selection = feedback.selection.value[feedback.selection.key];
+      // Render selected choice to selection div
+      document.querySelector(".selection").innerHTML = selection;
+      // Replace Input value with the selected value
+      autoCompleteJS.input.value = selection;
+      // Console log autoComplete data feedback
+      console.log(feedback);
+  });
 }
 
 $("#SetTotal").on('change', function(){
