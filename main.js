@@ -132,7 +132,8 @@ function autocompleteProcessFile(e) {
 }
 
 function setupAutocomplete() {
-    console.log("sert");
+    console.log("Autocomplete is setup ");
+    var restOfString = "";
     const autoCompleteJS = new autoComplete({
         placeHolder: "Search for Food...",
         data: {
@@ -143,12 +144,16 @@ function setupAutocomplete() {
             const wordArray = input.split(" ");
             console.log(wordArray.at(-1));
             const currString = wordArray.at(-1);
+            wordArray.pop();
+            if (wordArray.length > 0) {
+                restOfString = wordArray.join(" ");
+            }
+            console.log("Input rest of string", restOfString);
             return currString;
         },
 
         resultItem: {
           element: (item, data) => {
-            console.log("d",data)
             // Modify Results Item Style
             item.style = "display: flex; justify-content: space-between;";
             // Modify Results Item Content
@@ -160,6 +165,11 @@ function setupAutocomplete() {
           },
           highlight: "autoComplete_highlight",
           selected: "autoComplete_selected"
+        },
+        resultList: {
+            element: (list, data) => {
+                list.setAttribute("data-parent", "food-list");
+            },
         },
         events: {
             input: {
@@ -175,9 +185,16 @@ function setupAutocomplete() {
       const feedback = event.detail;
       autoCompleteJS.input.blur();
       // Prepare User's Selected Value
-      const selection = feedback.selection.value[feedback.selection.key];
+      //const selection = feedback.selection.value[feedback.selection.key];
+      console.log("heldsfa", restOfString)
+      if (restOfString.length > 0 ) {
+          restOfString = restOfString + " "
+      }
+      const selection = restOfString + feedback.selection.value
+      console.log("selection", selection, feedback, feedback.selection, feedback.selection.value)
+
       // Render selected choice to selection div
-      document.querySelector(".selection").innerHTML = selection;
+      //document.querySelector(".selection").innerHTML = selection;
       // Replace Input value with the selected value
       autoCompleteJS.input.value = selection;
       // Console log autoComplete data feedback
