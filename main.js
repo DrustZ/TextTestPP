@@ -167,9 +167,7 @@ function setupAutocomplete() {
           selected: "autoComplete_selected"
         },
         resultList: {
-            element: (list, data) => {
-                list.setAttribute("data-parent", "food-list");
-            },
+            tabSelect: true
         },
         events: {
             input: {
