@@ -37,88 +37,10 @@
     <div id="main-sec" >
 
         <div class="ui text container">
+            <div id="DisableStatus">Enabled</div>
             <div class="ui segment" id="Present">Loading...</div>
             <input type="text" class="ui raised segment" id="autoComplete" tabindex="1"></input>
             <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.6/dist/autoComplete.min.js"></script>
-            <script>
-                const autoCompleteJS = new autoComplete({
-                    placeHolder: "Search for Food...",
-                    data: {
-                        src: autocompleteWords,
-                        cache: true,
-                    },
-                    query: (input) => {
-                        const wordArray = input.split(" ");
-                        console.log(wordArray.at(-1));
-                        const currString = wordArray.at(-1);
-                        return currString;
-                    },
-                    // resultsList: {
-                    //   element: (list, data) => {
-                    //     const info = document.createElement("p");
-                    //     if (data.results.length > 0) {
-                    //       info.innerHTML = `Displaying <strong>${data.results.length}</strong> out of <strong>${data.matches.length}</strong> results`;
-                    //     } else {
-                    //       info.innerHTML = `Found <strong>${data.matches.length}</strong> matching results for <strong>"${data.query}"</strong>`;
-                    //     }
-                    //     list.prepend(info);
-                    //   },
-                    //   noResults: true,
-                    //   maxResults: 15,
-                    //   tabSelect: true
-	                  // },
-                    // resultsList: {
-                    //     tag: "ul",
-                    //     id: "autoComplete_list",
-                    //     class: "results_list",
-                    //     destination: "#autoComplete",
-                    //     position: "afterend",
-                    //     maxResults: 5,
-                    //     noResults: true,
-                    //     element: (list, data) => {
-                    //         list.setAttribute("data-parent", "food-list");
-                    //     },
-                    // },
-
-                    resultItem: {
-                      element: (item, data) => {
-                        console.log("d",data)
-                        // Modify Results Item Style
-                        item.style = "display: flex; justify-content: space-between;";
-                        // Modify Results Item Content
-                        item.innerHTML = `
-                        <span style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
-                          ${data.match}
-                        </span>
-                        `;
-                      },
-                      highlight: "autoComplete_highlight",
-                      selected: "autoComplete_selected"
-                    },
-                    events: {
-                        input: {
-                            selection: (event) => {
-                                const selection = event.detail.selection.value;
-                                autoCompleteJS.input.value = selection;
-                            }
-                        }
-                    }
-                });
-
-                autoCompleteJS.input.addEventListener("selection", function (event) {
-                  const feedback = event.detail;
-                  autoCompleteJS.input.blur();
-                  // Prepare User's Selected Value
-                  const selection = feedback.selection.value[feedback.selection.key];
-                  // Render selected choice to selection div
-                  document.querySelector(".selection").innerHTML = selection;
-                  // Replace Input value with the selected value
-                  autoCompleteJS.input.value = selection;
-                  // Console log autoComplete data feedback
-                  console.log(feedback);
-              });
-            </script>
-            <div id="DisableStatus">Enabled</div>
             <div class="ui fitted divider" style="border-color:white;"></div>
             <div id="AlignBtn" class="ui stackable">
                 <span id="phraseCount" >Phrase Count </span>

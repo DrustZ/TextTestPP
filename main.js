@@ -130,10 +130,10 @@ function autocompleteProcessFile(e) {
     }
     setupAutocomplete();
 }
-
+let restOfString = ""
 function setupAutocomplete() {
     console.log("Autocomplete is setup ");
-    var restOfString = "";
+    restOfString = "";
     const autoCompleteJS = new autoComplete({
         placeHolder: "Search for Food...",
         data: {
@@ -325,6 +325,8 @@ $("#autoComplete").keypress(function(){
     if (key == 13){ // enter pressed
         if ($("#EnterNext").prop("checked")){
             $("#Next").click();
+            console.log("next phrase");
+            restOfString = "";
             return false;
         }
     }
