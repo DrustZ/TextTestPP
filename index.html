@@ -44,7 +44,7 @@
                 const autoCompleteJS = new autoComplete({
                     placeHolder: "Search for Food...",
                     data: {
-                        src: ["the", "of", "and", "to", "a", "in", "for", "is", "on", "that", "by", "this", "with"],
+                        src: autocompleteWords,
                         cache: true,
                     },
                     query: (input) => {
@@ -149,6 +149,14 @@
                                  <input type="file" id="fileInput"/><button class="ui mini button" id="upload">Upload</button>
                                 </div></div>
                         </div>
+                        <div class="item">
+                          <i class="small circle icon"></i>
+                          <div class="content">
+                              <div class="header">autocomplete</div>
+                              <div class="description">
+                               <input type="file" id="autocompleteFileInput"/><button class="ui mini button" id="autocompleteUpload">Upload</button>
+                              </div></div>
+                      </div>
                         <div class="item">
                             <i class="small circle icon"></i>
                             <div class="content">

@@ -102,6 +102,33 @@ function processFile(e) {
         ItemJson = { Transcribe: [], Action: [] };
     }
 }
+$("#autocompleteUpload").click(function(){
+    if (!window.FileReader) {
+        alert('Your browser is not supported')
+    }
+    var input = $("#autocompleteFileInput").get(0);
+
+    // Create a reader object
+    var reader = new FileReader();
+    if (input.files.length) {
+        var textFile = input.files[0];
+        reader.readAsText(textFile);
+        $(reader).on('load', autocompleteProcessFile);
+    } else {
+        alert('Please upload a file before continuing')
+    }
+})
+let autocompleteWords = undefined;
+//process the autocomplete phrase file
+function autocompleteProcessFile(e) {
+    var file = e.target.result,
+        results;
+    if (file && file.length) {
+        allphrases = file.split("\n");
+        console.log(allphrases, Array.isArray(allphrases))
+        autocompleteWords = allphrases 
+    }
+}
 
 $("#SetTotal").on('change', function(){
    if ($("#SetTotal").prop("checked")) {
