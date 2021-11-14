@@ -126,7 +126,7 @@ function autocompleteProcessFile(e) {
     if (file && file.length) {
         allphrases = file.split("\n");
         //console.log(allphrases, Array.isArray(allphrases))
-        autocompleteWords = allphrases 
+        autocompleteWords = [...new Set(allphrases)]; 
     }
     setupAutocomplete();
 }
@@ -135,12 +135,13 @@ function setupAutocomplete() {
     console.log("Autocomplete is setup ");
     restOfString = "";
     const autoCompleteJS = new autoComplete({
-        placeHolder: "Search for Food...",
+        placeHolder: "begin typing....",
         data: {
             src: autocompleteWords,
             cache: true,
         },
         query: (input) => {
+            console.log("in", input)
             const wordArray = input.split(" ");
             console.log(wordArray.at(-1));
             const currString = wordArray.at(-1);
@@ -188,7 +189,7 @@ function setupAutocomplete() {
           restOfString = restOfString + " "
       }
       const selection = restOfString + feedback.selection.value
-      console.log("selection", selection, feedback, feedback.selection, feedback.selection.value)
+      console.log("selection1", selection, "a",  feedback, "b", feedback.selection, "c", feedback.selection.value)
 
       // Render selected choice to selection div
       //document.querySelector(".selection").innerHTML = selection;
@@ -196,6 +197,11 @@ function setupAutocomplete() {
       autoCompleteJS.input.value = selection;
       // Console log autoComplete data feedback
       console.log(feedback);
+      ac = document.getElementById("autoComplete")
+      ac.focus();
+      length = ac.value.length;
+      console.log("length", length)
+      ac.setSelectionRange(length, length);
   });
 }
 
