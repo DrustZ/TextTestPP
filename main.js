@@ -24,12 +24,15 @@ var ItemJson = { Transcribe: [], Action: [] };
 var ItemLog = "";
 var CurrentJson;
 var DefaultName = "TextTest"
+var AutocompleteCount =0;
+var AutocompleteList = []
 
 //logic vars
 var Started = false;
 
 // MUC vars for restricting typing speed
 let timeout = null;
+var timeOutInMil = 0; 
 
 $('.ui.accordion')
    .accordion()
@@ -92,7 +95,7 @@ function processFile(e) {
     if (file && file.length) {
         allphrases = file.split("\n");
         Allphrases = allphrases;
-//        shuffle(allphrases);
+        shuffle(allphrases); //always shuffle
         phrasecount = 0;
         PresentString = allphrases[phrasecount].replace(/^\s+|\s+$/g, '');
         $('#Present').html(PresentString);
@@ -180,6 +183,7 @@ function setupAutocomplete() {
         }
     });
 
+    //Eleanor's Autcomplete work
     autoCompleteJS.input.addEventListener("selection", function (event) {
       const feedback = event.detail;
       autoCompleteJS.input.blur();
@@ -189,7 +193,6 @@ function setupAutocomplete() {
           restOfString = restOfString + " "
       }
       const selection = restOfString + feedback.selection.value
-      console.log("selection1", selection, "a",  feedback, "b", feedback.selection, "c", feedback.selection.value)
 
       // Render selected choice to selection div
       //document.querySelector(".selection").innerHTML = selection;
@@ -197,8 +200,10 @@ function setupAutocomplete() {
       autoCompleteJS.input.value = selection;
       // Console log autoComplete data feedback
       console.log(feedback);
+      AutocompleteCount = AutocompleteCount + 1;
+      AutocompleteList.push(feedback.selection.value)
       ac = document.getElementById("autoComplete")
-      ac.focus();
+      ac.focus(); 
       length = ac.value.length;
       console.log("length", length)
       ac.setSelectionRange(length, length);
@@ -250,6 +255,13 @@ $("#autoComplete").bind("mouseup", function() {
     }, 1);
 })
 
+$("#SaveDelayButton").click(function() { 
+    timeOutInMil = document.getElementById("DelayTime").value
+    console.log("delay time set to:", timeOutInMil)
+    document.getElementById("DisplayDelayTime").innerHTML = timeOutInMil
+})
+timeOutInMil = parseInt(document.getElementById("DisplayDelayTime").innerHTML)
+
 //whenever there's a change happens in the transcribed string (e.g. an Action happens)
 //this function is triggered
 $("#autoComplete").bind("keyup click focus input propertychange", function() {
@@ -283,21 +295,14 @@ $("#autoComplete").bind("keyup click focus input propertychange", function() {
     //Transcribe
 
     var disabled = false;
-    timeOutInMil = null;
+    
 
     window.addEventListener('keydown', function(e) {
         if(e.keyCode == 32 && e.target == document.body) {
           e.preventDefault();
         }
       });
-
-    function saveDelay() {
-        timeOutInMil = document.getElementById("DelayTime").value
-        console.log("delay time set to:", timeOutInMil)
-        document.getElementById("DisplayDelayTime").innerHTML = timeOutInMil
-    }
-    document.getElementById("SaveDelayButton").addEventListener("click", saveDelay);
-    timeOutInMil = parseInt(document.getElementById("DisplayDelayTime").innerHTML)
+    
 
     if (!disabled) {
         $("#autoComplete").prop('disabled', true);		// if not disabled, disable
@@ -326,11 +331,13 @@ function sleep(milliseconds) {
 }
 
 $("#autoComplete").keypress(function(){
+    console.log("here");
     var key = window.event.keyCode;
 
-    console.log(event.key);     // ************* MUC for debugging, DELETE LATER *************
+    console.log(key);     // ************* MUC for debugging, DELETE LATER *************
 
-    if (key == 13){ // enter pressed
+    if (key == 92){ // enter pressed
+        console.log("KP")
         if ($("#EnterNext").prop("checked")){
             $("#Next").click();
             console.log("next phrase");
@@ -353,9 +360,14 @@ $("#Next").click(function() {
     ItemJson["UER"] = (res[0]/(IF+res[1]+res[0])).toFixed(3)
     ItemJson["TER"] = ((IF+res[0])/(IF+res[1]+res[0])).toFixed(3)
     ItemJson["Transcribed"] = tsequence[tsequence.length - 1];
+    ItemJson["AC"] = AutocompleteCount;
+    ItemJson["ACLIST"] = AutocompleteList.toString();
+    ItemJson["Timeout"] = timeOutInMil;
+    console.log("ij", ItemJson);
     let ts = ItemJson["Transcribe"]
     ItemJson["Time"] = ts[ts.length-1].TimeStamp - ts[0].TimeStamp;
     AllJson.push(JSON.parse(JSON.stringify(ItemJson)));
+    console.log("alljson", AllJson)
     ItemJson = { Transcribe: [], Action: [] };
 
     clearContent();
@@ -740,8 +752,14 @@ $("#Download").click(function(){
         fname = $("#Filename").val()
 
     if ($("#Selectformat").val() == 0){
+        for (var i = 0; i < CurrentJson.length; i++) {
+                CurrentJson[i].Transcribe = ""
+                CurrentJson[i].Action = ""
+        }
+
         download(fname+".json", JSON.stringify(CurrentJson, null, '\t'));
     } else if ($("#Selectformat").val() == 1){
+        console.log("CSV")
         var csv = JsonToCSV(CurrentJson)
         download(fname+".csv", csv);
     } else {
@@ -844,10 +862,12 @@ function JsonToCSV(json){
     //HIR: human input ratio   MIR: machine input ratio
     //rate
     //AE: action efficiency  CE: correct efficiency  TE: transcribe efficiency
-    var csv = "Trial, Seconds, correct_time, entry_time, Tlen, Plen, TCC, IF, INF, C, WPM, TCCPM, AC, DAC, IAC, SAC, UER, CER, TER, CPA, TPA, CPC, CPE, AE, CE, EE, TE, IFc, IFe\n"
+    var csv = "Trial, Seconds, TIME_DELAY, AUTOCOMPLETE, correct_time, entry_time, Tlen, Plen, TCC, IF, INF, C, WPM, TCCPM, AC, DAC, IAC, SAC, UER, CER, TER, CPA, TPA, CPC, CPE, AE, CE, EE, TE, IFc, IFe\n"
+    console.log(json)
     for (var j = 0; j < json.length; ++j){
         let item = json[j]
         let ts = item.Transcribe, actions = item.Action
+        console.log("item", item)
         if (ts.length == 0) continue;
         let time = (ts[ts.length-1].TimeStamp - ts[0].TimeStamp) / 1000, fix_time = 0, delete_time = 0
 
@@ -887,8 +907,9 @@ function JsonToCSV(json){
         FPM = (item.IF) / Math.max((fix_time/12), 1e-10)
         FE = item.IF / Math.max(fix_time, 1e-10)
         IE = (Tlen+item.IF-ts[0].Text.length) / insert_time
+        console.log("ACList", item.ACLIST)
 
-        csv += [j, time, fix_time, insert_time, Tlen, item.Present.length, TCC, item.IF, item.INF, item.C, WPM, TCCPM, AC, DAC, IAC, SAC, item.UER, item.CER, item.TER, CPA, TPA, FPA, IPA, AE, FE, IE, TE, IFc, (item.IF-IFc)].map(function(n){return Number(n).toFixed(2)}).join(',') + '\n'
+        csv += [j, time, item.Timeout, item.AC, fix_time, insert_time, Tlen, item.Present.length, TCC, item.IF, item.INF, item.C, WPM, TCCPM, AC, DAC, IAC, SAC, item.UER, item.CER, item.TER, CPA, TPA, FPA, IPA, AE, FE, IE, TE, IFc, (item.IF-IFc)].map(function(n){return Number(n).toFixed(2)}).join(',') + '\n'
     }
     return csv
 }
