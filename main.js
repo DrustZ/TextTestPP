@@ -684,8 +684,8 @@ function JsonToCSV(json){
     //CPC: character change per correct action
     //HIR: human input ratio   MIR: machine input ratio
     //rate
-    //AE: action efficiency  CE: correct efficiency  TE: transcribe efficiency
-    var csv = "Trial, Seconds, correct_time, entry_time, Tlen, Plen, TCC, IF, INF, C, WPM, TCCPM, AC, DAC, IAC, SAC, UER, CER, TER, CPA, TPA, CPC, CPE, AE, CE, EE, TE, IFc, IFe\n"
+    //AE: action efficiency  CE: correct efficiency
+    var csv = "Trial, Seconds, correct_time, entry_time, Tlen, Plen, TCC, IF, INF, C, WPM, TCCPM, AC, DAC, IAC, SAC, UER, CER, TER, CPA, TPA, CPC, CPE, AE, CE, EE, IFc, IFe\n"
     for (var j = 0; j < json.length; ++j){
         let item = json[j]
         let ts = item.Transcribe, actions = item.Action
@@ -699,7 +699,7 @@ function JsonToCSV(json){
         let WPM = (Tlen-ts[0].Text.length) / (time/12), FPM = 0, TCCPM = (TCC -ts[0].Text.length) / (time/12), CPA = TCC / AC, TPA = Tlen / AC
         
         let AE = (TCC - ts[0].Text.length) / time, 
-            FE = 0, TE = (Tlen-ts[0].Text.length) / time, IE = 0, IFc = 0
+            FE = 0, IE = 0, IFc = 0
         for (let i = 0; i < actions.length; ++i){
             let action = actions[i]
             if (action[0] == 'replace'){
@@ -729,7 +729,7 @@ function JsonToCSV(json){
         FE = item.IF / Math.max(fix_time, 1e-10)
         IE = (Tlen+item.IF-ts[0].Text.length) / insert_time
         
-        csv += [j, time, fix_time, insert_time, Tlen, item.Present.length, TCC, item.IF, item.INF, item.C, WPM, TCCPM, AC, DAC, IAC, SAC, item.UER, item.CER, item.TER, CPA, TPA, FPA, IPA, AE, FE, IE, TE, IFc, (item.IF-IFc)].map(function(n){return Number(n).toFixed(2)}).join(',') + '\n'
+        csv += [j, time, fix_time, insert_time, Tlen, item.Present.length, TCC, item.IF, item.INF, item.C, WPM, TCCPM, AC, DAC, IAC, SAC, item.UER, item.CER, item.TER, CPA, TPA, FPA, IPA, AE, FE, IE, IFc, (item.IF-IFc)].map(function(n){return Number(n).toFixed(2)}).join(',') + '\n'
     }
     return csv    
 }
